@@ -1,0 +1,36 @@
+
+[DATA_NODE.centers]
+storage_type = "pickle"
+default_data = 3
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.n_clusters]
+storage_type = "pickle"
+default_data = 3
+scope = "SCENARIO:SCOPE"
+
+[DATA_NODE.km]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
+
+[TASK.generate_data]
+inputs = [ "centers:SECTION" ]
+outputs = [ "dataset:SECTION" ]
+function = "config.config.generate_data:function"
+skippable = "False:bool"
+
+[TASK.fit]
+inputs = [ "dataset:SECTION", "n_clusters:SECTION" ]
+outputs = [ "km:SECTION" ]
+function = "config.config.fit:function"
+skippable = "False:bool"
+
+[PIPELINE.pipeline]
+tasks = [ "generate_data:SECTION", "fit:SECTION" ]
+
+[SCENARIO.scenario]
+pipelines = [ "pipeline:SECTION" ]
+
+[DATA_NODE.dataset]
+storage_type = "pickle"
+scope = "SCENARIO:SCOPE"
