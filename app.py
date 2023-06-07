@@ -38,7 +38,7 @@ def on_button(state):
             "color": state.km.labels_[::1000],
         }
     )
-    notify(state, "success", "Done! (Please Reload the Page)")
+    notify(state, "success", "Done!")
 
 
 page = """
@@ -50,7 +50,7 @@ Number of clusters:
 
 <|Run K-Means|button|on_action=on_button|>
 
-<|{visual_data}|chart|mode=markers|x=x|y=y|color=color|>
+<|{visual_data}|chart|mode=markers|x=x|y=y|color=color|rebuild|>
 """
 
 tp.Core().run()
