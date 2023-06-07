@@ -10,7 +10,7 @@ default_data = 3
 scope = "SCENARIO:SCOPE"
 
 [DATA_NODE.km]
-storage_type = "pickle"
+storage_type = "in_memory"
 scope = "SCENARIO:SCOPE"
 
 [TASK.generate_data]
@@ -32,5 +32,5 @@ tasks = [ "generate_data:SECTION", "fit:SECTION" ]
 pipelines = [ "pipeline:SECTION" ]
 
 [DATA_NODE.dataset]
-storage_type = "pickle"
+storage_type = "in_memory"
 scope = "SCENARIO:SCOPE"

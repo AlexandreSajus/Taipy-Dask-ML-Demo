@@ -12,10 +12,9 @@ from dask.distributed import Client
 
 client = Client(processes=False, threads_per_worker=4, n_workers=1, memory_limit="2GB")
 
-centers = 3
 n_clusters = 3
 data = dask_ml.datasets.make_blobs(
-    n_samples=1000000, chunks=100000, random_state=0, centers=centers
+    n_samples=1000000, chunks=1000000, random_state=0, centers=n_clusters
 )
 X, _ = data
 km = dask_ml.cluster.KMeans(n_clusters=n_clusters)
@@ -30,8 +29,9 @@ scenario_object = Config.scenarios["scenario"]
 
 
 def on_button(state):
+    notify(state, "info", "Running K-Means")
     scenario = tp.create_scenario(scenario_object)
-    scenario.centers.write(state.centers)
+    scenario.centers.write(state.n_clusters)
     scenario.n_clusters.write(state.n_clusters)
     tp.submit(scenario)
     state.X = scenario.dataset.read()
@@ -43,13 +43,18 @@ def on_button(state):
             "color": state.km.labels_[::1000],
         }
     )
+    notify(state, "success", "Done! (Please Reload the Page))")
 
 
 page = """
-# Chat with **GPT-4**{: .color-primary}
-<|{centers}|slider|min=1|max=10|>
+# Scaling K-Means with **Dask**{: .color-secondary} and **Taipy**{: .color-primary}
+
+Number of clusters:
+
 <|{n_clusters}|slider|min=1|max=10|>
-<|Run|button|on_action=on_button|>
+
+<|Run K-Means|button|on_action=on_button|>
+
 <|{visual_data}|chart|mode=markers|x=x|y=y|color=color|>
 """
 

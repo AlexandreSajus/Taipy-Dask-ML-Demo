@@ -13,7 +13,7 @@ def generate_data(centers: int):
         - X (dask.array): array of shape (n_samples, n_features)
     """
     X, _ = dask_ml.datasets.make_blobs(
-        n_samples=1000000, chunks=100000, random_state=0, centers=centers
+        n_samples=1000000, chunks=1000000, random_state=0, centers=centers
     )
     return X.persist()
 
