@@ -2,15 +2,10 @@ import taipy as tp
 from taipy.gui import Gui, notify
 from taipy.config import Config
 
-import dask
 import dask_ml.datasets
 import dask_ml.cluster
+
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from dask.distributed import Client
-
-client = Client(processes=False, threads_per_worker=4, n_workers=1, memory_limit="2GB")
 
 n_clusters = 3
 data = dask_ml.datasets.make_blobs(
@@ -29,7 +24,7 @@ scenario_object = Config.scenarios["scenario"]
 
 
 def on_button(state):
-    notify(state, "info", "Running K-Means")
+    notify(state, "info", "Running K-Means...")
     scenario = tp.create_scenario(scenario_object)
     scenario.centers.write(state.n_clusters)
     scenario.n_clusters.write(state.n_clusters)
@@ -43,7 +38,7 @@ def on_button(state):
             "color": state.km.labels_[::1000],
         }
     )
-    notify(state, "success", "Done! (Please Reload the Page))")
+    notify(state, "success", "Done! (Please Reload the Page)")
 
 
 page = """
